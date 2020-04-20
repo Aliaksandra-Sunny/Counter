@@ -1,0 +1,16 @@
+.message {
+    background-color: #6fc8fb;
+    width: 95%;
+    height: 50%;
+    border-radius: 20px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.error{
+    color: red;
+}

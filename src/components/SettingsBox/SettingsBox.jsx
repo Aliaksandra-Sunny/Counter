@@ -12,7 +12,7 @@ class SettingsBox extends React.Component {
         });
         return (
             <div className={s.settingsBox}>
-                <Settings onSettingChange={this.props.onSettingChange} maxScore={this.props.maxScore} minScore={this.props.minScore}/>
+                <Settings onSettingChange={this.props.onSettingChange} settings={this.props.settingsBox}/>
                 <div className={s.buttons}>
                     {buttonElements}
                 </div>
