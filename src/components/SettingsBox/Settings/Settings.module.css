@@ -1,0 +1,14 @@
+.settings {
+    border: #6fc8fb 1px solid;
+    width: 95%;
+    height: 50%;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    color: #6fc8fb;
+    flex-direction: column;
+    font-size: 25px;
+    font-weight: bold;
+}
+

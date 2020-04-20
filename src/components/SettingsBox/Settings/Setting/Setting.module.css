@@ -1,0 +1,18 @@
+.setting{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.setting input{
+    border-radius: 5px;
+    font-size: 15px;
+    border: #6fc8fb 2px solid;
+    text-align: center;
+}
+
+.error{
+    border: red 2px solid;
+    background-color: rgba(214, 97, 94, 0.75);
+    color: red;
+}

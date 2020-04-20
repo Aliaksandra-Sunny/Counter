@@ -1,0 +1,24 @@
+.counterBox{
+    border: #6fc8fb 1px solid;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin: 30px;
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+}
+
+.buttons{
+    border: #6fc8fb 1px solid;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    border-radius: 20px;
+    width: 95%;
+    margin-top: 10px;
+    height: 35%;
+}
