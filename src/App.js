@@ -33,10 +33,15 @@ class App extends React.Component {
     };
 
     onSettingChange = (name, newScore) => {
+
         this.allowedButton("set");
         this.setState({
-            [name]: Number(newScore),
-        })
+                [name]: Number(newScore),
+            }, () => {
+                if (newScore < 0 || this.state.minScore >= this.state.maxScore)
+                    this.disabledButton("set")
+            }
+        );
     };
 
     incrementScore = () => {
@@ -44,11 +49,12 @@ class App extends React.Component {
             let newScore = this.state.score + 1;
             this.setState({
                     score: newScore,
+                }, () => {
+                    if (this.state.score === this.state.maxScore)
+                        this.disabledButton("inc");
                 }
             );
-            if (newScore === this.state.maxScore)
-                this.disabledButton("inc");
-            if (newScore === 1) {
+            if (newScore === this.state.minScore + 1) {
                 this.allowedButton("reset")
             }
         }
@@ -57,8 +63,8 @@ class App extends React.Component {
     resetScore = () => {
         this.disabledButton("reset");
         this.setState({
-                score: 0,
-            }, () =>  this.allowedButton("inc")
+                score: this.state.minScore,
+            }, () => this.allowedButton("inc")
         );
 
     };
@@ -66,7 +72,11 @@ class App extends React.Component {
     setScore = () => {
         this.setState({
             score: this.state.minScore,
-        });
+        }, ()=>{
+            this.allowedButton("inc");
+            }
+        );
+        this.disabledButton("reset");
         this.disabledButton("set");
     };
 
