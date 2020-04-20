@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import CounterBox from "./components/CounterBox/CounterBox";
 import SettingsBox from "./components/SettingsBox/SettingsBox";
+import {saveState} from "./saveState";
 
 class App extends React.Component {
 
@@ -15,6 +16,8 @@ class App extends React.Component {
         });
         this.setState({
                 buttons: newButtons,
+            }, () => {
+                saveState("our-state", this.state)
             }
         )
     };
@@ -28,6 +31,8 @@ class App extends React.Component {
         });
         this.setState({
                 buttons: newButtons,
+            }, () => {
+                saveState("our-state", this.state)
             }
         )
     };
@@ -44,15 +49,16 @@ class App extends React.Component {
                 settingsBox: newSettingsBox,
                 counterBox: newCounterBox,
             }, () => {
-                if (newScore < 0 || this.state.settingsBox.minScore >= this.state.settingsBox.maxScore){
+                saveState("our-state", this.state);
+                if (newScore < 0 || this.state.settingsBox.minScore >= this.state.settingsBox.maxScore) {
                     this.setState({
                         counterBox: {...this.state.counterBox, error: true, message: "Incorrect value!"},
-                    });
-                    this.disabledButton("set")}
-                else{
+                    }, () => saveState("our-state", this.state));
+                    this.disabledButton("set")
+                } else {
                     this.setState({
                         counterBox: {...this.state.counterBox, error: false, message: "Enter values and press 'set'"},
-                    });
+                    }, () => saveState("our-state", this.state));
                 }
             }
         );
@@ -67,6 +73,7 @@ class App extends React.Component {
             this.setState({
                     counterBox: newCounterBox,
                 }, () => {
+                    saveState("our-state", this.state);
                     if (this.state.counterBox.score === this.state.settingsBox.maxScore)
                         this.disabledButton("inc");
                 }
@@ -79,7 +86,10 @@ class App extends React.Component {
         let newCounterBox = {...this.state.counterBox, score: this.state.settingsBox.minScore};
         this.setState({
                 counterBox: newCounterBox,
-            }, () => this.allowedButton("inc")
+            }, () => {
+                saveState("our-state", this.state);
+                this.allowedButton("inc");
+            }
         );
 
     };
@@ -89,10 +99,11 @@ class App extends React.Component {
         this.setState({
                 counterBox: newCounterBox,
             }, () => {
+                saveState("our-state", this.state);
                 this.disabledButton("set")
             }
         );
-            this.allowedButton("inc");
+        this.allowedButton("inc");
     };
 
     state = {
@@ -117,7 +128,7 @@ class App extends React.Component {
         return (
             <div className="counter">
                 <SettingsBox onSettingChange={this.onSettingChange} buttons={this.state.buttons}
-                            settingsBox={this.state.settingsBox}/>
+                             settingsBox={this.state.settingsBox}/>
                 <CounterBox counterBox={this.state.counterBox} buttons={this.state.buttons}/>
             </div>
         );
