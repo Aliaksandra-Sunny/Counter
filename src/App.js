@@ -3,9 +3,35 @@ import './App.css';
 import CounterBox from "./components/CounterBox/CounterBox";
 import SettingsBox from "./components/SettingsBox/SettingsBox";
 import {saveState} from "./saveState";
+import {restoreState} from "./restoreState";
 
 class App extends React.Component {
 
+    componentDidMount() {
+        this.restoreState();
+    }
+
+    restoreState = () => {
+        let state = {
+            settingsBox: {
+                minScore: 0,
+                maxScore: 10,
+            },
+            counterBox: {
+                score: 0,
+                menu: false,
+                error: false,
+                message: "Enter values and press 'set'",
+            },
+            buttons: [
+                {name: "inc", disable: false, function: this.incrementScore},
+                {name: "reset", disable: true, function: this.resetScore},
+                {name: "set", disable: true, function: this.setScore},
+            ],
+        };
+        state = restoreState("our-state", state);
+        this.setState(state);
+    };
 
     allowedButton = (name) => {
         let newButtons = this.state.buttons.map(b => {
@@ -95,6 +121,7 @@ class App extends React.Component {
     };
 
     setScore = () => {
+        debugger
         let newCounterBox = {...this.state.counterBox, menu: false, score: this.state.settingsBox.minScore};
         this.setState({
                 counterBox: newCounterBox,

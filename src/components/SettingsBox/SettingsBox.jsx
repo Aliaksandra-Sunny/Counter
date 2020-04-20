@@ -5,9 +5,9 @@ import Settings from "./Settings/Settings";
 
 class SettingsBox extends React.Component {
     render = () => {
-        let buttonElements=this.props.buttons.slice(2,3).map((button)=>{
+        let buttonElements=this.props.buttons.slice(2,3).map((button, index)=>{
             return(
-                <Button button={button}/>
+                <Button key={index} button={button}/>
             )
         });
         return (

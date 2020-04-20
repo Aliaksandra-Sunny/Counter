@@ -6,9 +6,9 @@ import Message from "./Message/Message";
 
 class CounterBox extends React.Component {
     render = () => {
-        let buttonElements = this.props.buttons.slice(0, 2).map((button) => {
+        let buttonElements = this.props.buttons.slice(0, 2).map((button,index) => {
             return (
-                <Button button={button}/>
+                <Button key={index} button={button}/>
             )
         });
         return (
