@@ -1,8 +1,6 @@
-export let   restoreState = (key, defaultState) => {
-    let state = defaultState;
+export let   restoreState = (key) => {
     let stateAsString = localStorage.getItem(key);
     if (stateAsString != null) {
-        state = JSON.parse(stateAsString);
-    }
-    return state;
+        return JSON.parse(stateAsString);
+    } else return null
 };

@@ -7,30 +7,42 @@ import {restoreState} from "./restoreState";
 
 class App extends React.Component {
 
+    state = {
+        settingsBox: {
+            minScore: 0,
+            maxScore: 10,
+        },
+        counterBox: {
+            score: 0,
+            menu: false,
+            error: false,
+            message: "Enter values and press 'set'",
+        },
+        buttons: [
+            {name: "inc", disable: false},
+            {name: "reset", disable: true},
+            {name: "set", disable: true},
+        ],
+    };
+
     componentDidMount() {
         this.restoreState();
     }
 
     restoreState = () => {
-        let state = {
-            settingsBox: {
-                minScore: 0,
-                maxScore: 10,
-            },
-            counterBox: {
-                score: 0,
-                menu: false,
-                error: false,
-                message: "Enter values and press 'set'",
-            },
-            buttons: [
-                {name: "inc", disable: false, function: this.incrementScore},
-                {name: "reset", disable: true, function: this.resetScore},
-                {name: "set", disable: true, function: this.setScore},
-            ],
-        };
-        state = restoreState("our-state", state);
-        this.setState(state);
+       let state = restoreState("our-state");
+       if(state){
+           this.setState(state);
+       }
+    };
+
+    handleClick = (event) => {
+        const btnName= event.currentTarget.dataset.name;
+        switch(btnName){
+            case 'inc': this.incrementScore(); break;
+            case 'set': this.setScore(); break;
+            case 'reset': this.resetScore(); break;
+        }
     };
 
     allowedButton = (name) => {
@@ -69,13 +81,14 @@ class App extends React.Component {
             this.disabledButton("reset");
         }, 0);
         this.allowedButton("set");
-        let newSettingsBox = {...this.state.settingsBox, [name]: Number(newScore)};
+        let newSettingsBox = {...this.state.settingsBox, [name]: newScore};
         let newCounterBox = {...this.state.counterBox, menu: true};
         this.setState({
                 settingsBox: newSettingsBox,
                 counterBox: newCounterBox,
             }, () => {
                 saveState("our-state", this.state);
+                debugger
                 if (newScore < 0 || this.state.settingsBox.minScore >= this.state.settingsBox.maxScore) {
                     this.setState({
                         counterBox: {...this.state.counterBox, error: true, message: "Incorrect value!"},
@@ -95,7 +108,7 @@ class App extends React.Component {
             if (this.state.counterBox.score + 1 === this.state.settingsBox.minScore + 1) {
                 this.allowedButton("reset")
             }
-            let newCounterBox = {...this.state.counterBox, score: this.state.counterBox.score + 1};
+            let newCounterBox = {...this.state.counterBox, score: +this.state.counterBox.score + 1};
             this.setState({
                     counterBox: newCounterBox,
                 }, () => {
@@ -121,7 +134,6 @@ class App extends React.Component {
     };
 
     setScore = () => {
-        debugger
         let newCounterBox = {...this.state.counterBox, menu: false, score: this.state.settingsBox.minScore};
         this.setState({
                 counterBox: newCounterBox,
@@ -133,30 +145,12 @@ class App extends React.Component {
         this.allowedButton("inc");
     };
 
-    state = {
-        settingsBox: {
-            minScore: 0,
-            maxScore: 10,
-        },
-        counterBox: {
-            score: 0,
-            menu: false,
-            error: false,
-            message: "Enter values and press 'set'",
-        },
-        buttons: [
-            {name: "inc", disable: false, function: this.incrementScore},
-            {name: "reset", disable: true, function: this.resetScore},
-            {name: "set", disable: true, function: this.setScore},
-        ],
-    };
-
     render = () => {
         return (
             <div className="counter">
                 <SettingsBox onSettingChange={this.onSettingChange} buttons={this.state.buttons}
-                             settingsBox={this.state.settingsBox}/>
-                <CounterBox counterBox={this.state.counterBox} buttons={this.state.buttons}/>
+                             settingsBox={this.state.settingsBox} handleClick={this.handleClick}/>
+                <CounterBox counterBox={this.state.counterBox} buttons={this.state.buttons} handleClick={this.handleClick}/>
             </div>
         );
     }

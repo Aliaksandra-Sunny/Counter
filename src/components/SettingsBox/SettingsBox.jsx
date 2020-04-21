@@ -7,7 +7,7 @@ class SettingsBox extends React.Component {
     render = () => {
         let buttonElements=this.props.buttons.slice(2,3).map((button, index)=>{
             return(
-                <Button key={index} button={button}/>
+                <Button key={index} button={button} handleClick={this.props.handleClick}/>
             )
         });
         return (

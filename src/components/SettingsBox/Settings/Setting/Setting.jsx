@@ -3,7 +3,7 @@ import style from "./Setting.module.css"
 
 class SettingsBox extends React.Component {
     onInputChange = (e) => {
-        this.props.onSettingChange(this.props.name==="Start value"? "minScore": "maxScore", e.target.value)
+        this.props.onSettingChange(this.props.name==="Start value"? "minScore": "maxScore", +e.target.value)
     };
 
     render = () => {
